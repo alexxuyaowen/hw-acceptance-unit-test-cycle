@@ -1,0 +1,4 @@
+<!--  app/views/movies/similar_movies.html.erb -->
+<% @movies.each do |movie| %>
+  <%= render 'movies/show', movie: movie %>
+<% end %>

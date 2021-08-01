@@ -11,6 +11,10 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   expect(page.body.index(e1) < page.body.index(e2))
 end
 
+Then /(.*) seed movies should exist/ do | n_seeds |
+  Movie.count.should be n_seeds.to_i
+end
+
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   rating_list.split(', ').each do |rating|
     step %{I #{uncheck.nil? ? '' : 'un'}check "ratings_#{rating}"}
@@ -22,4 +26,11 @@ Then /I should see all the movies/ do
   Movie.all.each do |movie|
     step %{I should see "#{movie.title}"}
   end
+end
+
+Then /^the director of "(.*)" should be "(.*)"/ do |title, director|
+  steps %Q{
+    Then I am on the details page for "#{title}"
+    And I should see "#{director}"
+  }
 end
